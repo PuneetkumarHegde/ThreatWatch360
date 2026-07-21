@@ -1,4 +1,4 @@
-# AlertIQ 2.0 — Full Stack (Backend + Frontend)
+# Threatwatch360 — Full Stack (Backend + Frontend)
 
 AI-Powered Real-Time Network Intrusion Detection & SOC Platform.
 

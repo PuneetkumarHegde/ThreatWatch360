@@ -1,0 +1,83 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Backend: Create venv",
+      "type": "shell",
+      "command": "python3 -m venv venv",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: Install dependencies",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/venv/bin/pip install -r requirements.txt",
+      "windows": {
+        "command": "${workspaceFolder}\\backend\\venv\\Scripts\\pip install -r requirements.txt"
+      },
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: Run API server",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/venv/bin/uvicorn api.app:app --host 0.0.0.0 --port 8000 --reload",
+      "windows": {
+        "command": "${workspaceFolder}\\backend\\venv\\Scripts\\uvicorn api.app:app --host 0.0.0.0 --port 8000 --reload"
+      },
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "group": "fullstack" }
+    },
+    {
+      "label": "Backend: Run tests",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/venv/bin/python -m pytest tests/ -v",
+      "windows": {
+        "command": "${workspaceFolder}\\backend\\venv\\Scripts\\python -m pytest tests/ -v"
+      },
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: Train ML models",
+      "type": "shell",
+      "command": "${workspaceFolder}/backend/venv/bin/python -m ai_engine.train && ${workspaceFolder}/backend/venv/bin/python -m ai_engine.anomaly",
+      "windows": {
+        "command": "${workspaceFolder}\\backend\\venv\\Scripts\\python -m ai_engine.train; ${workspaceFolder}\\backend\\venv\\Scripts\\python -m ai_engine.anomaly"
+      },
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: Install dependencies",
+      "type": "shell",
+      "command": "npm install",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: Dev Server",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "group": "fullstack" }
+    },
+    {
+      "label": "Frontend: Build",
+      "type": "shell",
+      "command": "npm run build",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Full Stack: Run Backend + Frontend",
+      "dependsOn": ["Backend: Run API server", "Frontend: Dev Server"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+  ]
+}

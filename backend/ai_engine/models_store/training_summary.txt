@@ -1,0 +1,12 @@
+AlertIQ 2.0 - Model Training Summary
+==================================================
+Classes: ['BENIGN', 'BOTNET_C2', 'DATA_EXFILTRATION', 'DNS_TUNNELING', 'MALWARE_BEACONING', 'SYN_FLOOD']
+Samples per class: 1500
+
+Model         Accuracy    F1(macro)   ROC-AUC   Time(s)
+RandomForest  1.0         1.0         1.0    1.63
+CatBoost      1.0         1.0         1.0    6.01
+LightGBM      1.0         1.0         1.0    1.29
+XGBoost       0.9996      0.9996      1.0    0.72
+
+SELECTED MODEL: RandomForest

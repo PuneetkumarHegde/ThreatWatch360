@@ -1,0 +1,64 @@
+# AlertIQ 2.0 - Docker Compose
+#
+# Two deployment modes:
+#
+# 1) API/Demo Mode only (default, works everywhere including Docker
+#    Desktop on macOS/Windows): full SOC portal, Demo Simulation Mode,
+#    ML pipeline, reports, everything EXCEPT live packet capture, since
+#    that needs raw-socket access Docker's default bridge network can't
+#    provide portably across platforms.
+#
+# 2) Live capture (Linux hosts only): uncomment the `network_mode: host`
+#    and `cap_add` lines under `backend`, and remove backend's `ports`
+#    and `networks` entries (host networking makes them redundant/invalid).
+#
+#       docker compose up --build
+#
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: alertiq-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - alertiq_db:/app/data
+    environment:
+      - ALERTIQ_JWT_SECRET=${ALERTIQ_JWT_SECRET:-change-me-in-production}
+      - ALERTIQ_SMTP_HOST=${ALERTIQ_SMTP_HOST:-}
+      - ALERTIQ_SMTP_PORT=${ALERTIQ_SMTP_PORT:-587}
+      - ALERTIQ_SMTP_USERNAME=${ALERTIQ_SMTP_USERNAME:-}
+      - ALERTIQ_SMTP_PASSWORD=${ALERTIQ_SMTP_PASSWORD:-}
+      - ALERTIQ_SMTP_FROM=${ALERTIQ_SMTP_FROM:-}
+      - ALERTIQ_SMTP_TO=${ALERTIQ_SMTP_TO:-}
+    # --- Uncomment for live packet capture (Linux hosts only) ---
+    # network_mode: host
+    # cap_add:
+    #   - NET_RAW
+    #   - NET_ADMIN
+    networks:
+      - alertiq_net
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: alertiq-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - alertiq_net
+    restart: unless-stopped
+
+networks:
+  alertiq_net:
+    driver: bridge
+
+volumes:
+  alertiq_db:

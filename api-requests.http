@@ -1,0 +1,57 @@
+### AlertIQ 2.0 API - quick test requests
+### Requires the "REST Client" VS Code extension (humao.rest-client).
+### Click "Send Request" above any block below, run top-to-bottom the
+### first time so @token gets set from the login response.
+
+@baseUrl = http://localhost:8000
+
+### 1. Health check
+GET {{baseUrl}}/api/health
+
+### 2. Login (sets @token for the requests below via the response)
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=ChangeMe123!
+
+### 3. Current user
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{login.response.body.access_token}}
+
+### 4. List incidents
+GET {{baseUrl}}/api/incidents
+Authorization: Bearer {{login.response.body.access_token}}
+
+### 5. Incident stats summary (last 24h)
+GET {{baseUrl}}/api/incidents/stats/summary?since_seconds=86400
+Authorization: Bearer {{login.response.body.access_token}}
+
+### 6. List devices
+GET {{baseUrl}}/api/devices
+Authorization: Bearer {{login.response.body.access_token}}
+
+### 7. Engine status
+GET {{baseUrl}}/api/engine/status
+Authorization: Bearer {{login.response.body.access_token}}
+
+### 8. List demo scenarios
+GET {{baseUrl}}/api/demo/scenarios
+Authorization: Bearer {{login.response.body.access_token}}
+
+### 9. Run a demo scenario (creates a REAL incident via the real engine)
+POST {{baseUrl}}/api/demo/simulate
+Authorization: Bearer {{login.response.body.access_token}}
+Content-Type: application/json
+
+{
+  "attack_type": "Port Scan"
+}
+
+### 10. Get current settings
+GET {{baseUrl}}/api/settings
+Authorization: Bearer {{login.response.body.access_token}}
+
+### 11. Download PDF report (opens/saves in VS Code)
+GET {{baseUrl}}/api/reports/incidents.pdf?since_seconds=2592000
+Authorization: Bearer {{login.response.body.access_token}}

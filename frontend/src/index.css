@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+/*
+  AlertIQ 2.0 — Design tokens
+  ---------------------------------
+  Direction: "network telemetry" rather than generic dark-dashboard.
+  Base is near-black slate (not pure black) so panels can separate by
+  elevation. Accent is a signal blue distinct from the generic
+  acid-green/near-black combo. Severity ramp reads left-to-right as
+  escalating urgency (blue -> amber -> orange -> red).
+
+  Type: Space Grotesk for headings/numbers (a technical, slightly
+  unusual display face), Inter for UI body text, JetBrains Mono for
+  IPs/ports/timestamps/evidence data, because in a SOC tool the raw
+  data IS the content and deserves a monospace treatment that signals
+  "this is exact, inspectable data."
+*/
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-base-950: #05070a;
+  --color-base-900: #0b0f16;
+  --color-base-850: #0f141c;
+  --color-base-800: #131a24;
+  --color-base-700: #1b2431;
+  --color-base-600: #263242;
+  --color-base-500: #3a4a5f;
+
+  --color-ink-100: #eef2f7;
+  --color-ink-300: #c2cbd9;
+  --color-ink-500: #8592a6;
+  --color-ink-700: #57667c;
+
+  --color-signal-400: #5aa9ff;
+  --color-signal-500: #3e7bfa;
+  --color-signal-600: #2f5fd6;
+
+  --color-sev-low: #4c8bf5;
+  --color-sev-medium: #f5a623;
+  --color-sev-high: #ff7a45;
+  --color-sev-critical: #ff4d4f;
+
+  --color-ok-500: #22c55e;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--color-base-950);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink-100);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-signal-500) 35%, transparent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-base-600) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--color-base-600); border-radius: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.animate-pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

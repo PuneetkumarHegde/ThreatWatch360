@@ -1,0 +1,272 @@
+{
+  "best_model": "RandomForest",
+  "selection_metric": "f1_macro",
+  "trained_at": 1783326823.5154986,
+  "n_per_class": 1500,
+  "results": {
+    "RandomForest": {
+      "accuracy": 1.0,
+      "precision_macro": 1.0,
+      "recall_macro": 1.0,
+      "f1_macro": 1.0,
+      "roc_auc_macro": 1.0,
+      "confusion_matrix": [
+        [
+          375,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          375,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          375,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          375,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          375,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          375
+        ]
+      ],
+      "classes": [
+        "BENIGN",
+        "BOTNET_C2",
+        "DATA_EXFILTRATION",
+        "DNS_TUNNELING",
+        "MALWARE_BEACONING",
+        "SYN_FLOOD"
+      ],
+      "train_time_seconds": 1.63
+    },
+    "XGBoost": {
+      "accuracy": 0.9996,
+      "precision_macro": 0.9996,
+      "recall_macro": 0.9996,
+      "f1_macro": 0.9996,
+      "roc_auc_macro": 1.0,
+      "confusion_matrix": [
+        [
+          375,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          375,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          375,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          375,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          375,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          0,
+          374
+        ]
+      ],
+      "classes": [
+        "BENIGN",
+        "BOTNET_C2",
+        "DATA_EXFILTRATION",
+        "DNS_TUNNELING",
+        "MALWARE_BEACONING",
+        "SYN_FLOOD"
+      ],
+      "train_time_seconds": 0.72
+    },
+    "CatBoost": {
+      "accuracy": 1.0,
+      "precision_macro": 1.0,
+      "recall_macro": 1.0,
+      "f1_macro": 1.0,
+      "roc_auc_macro": 1.0,
+      "confusion_matrix": [
+        [
+          375,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          375,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          375,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          375,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          375,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          375
+        ]
+      ],
+      "classes": [
+        "BENIGN",
+        "BOTNET_C2",
+        "DATA_EXFILTRATION",
+        "DNS_TUNNELING",
+        "MALWARE_BEACONING",
+        "SYN_FLOOD"
+      ],
+      "train_time_seconds": 6.01
+    },
+    "LightGBM": {
+      "accuracy": 1.0,
+      "precision_macro": 1.0,
+      "recall_macro": 1.0,
+      "f1_macro": 1.0,
+      "roc_auc_macro": 1.0,
+      "confusion_matrix": [
+        [
+          375,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          375,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          375,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          375,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          375,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          375
+        ]
+      ],
+      "classes": [
+        "BENIGN",
+        "BOTNET_C2",
+        "DATA_EXFILTRATION",
+        "DNS_TUNNELING",
+        "MALWARE_BEACONING",
+        "SYN_FLOOD"
+      ],
+      "train_time_seconds": 1.29
+    }
+  }
+}

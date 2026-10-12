@@ -1,9 +1,9 @@
+
 """
-AlertIQ 2.0 - Phase 3 Database Setup
-----------------------------------------
-SQLite via SQLAlchemy. SQLite is sufficient for a single-box SOC deployment
-(per the project spec) and needs no separate DB server to run.
+AlertIQ 2.0 - Database Configuration
+Supports PostgreSQL (Supabase/Render) and SQLite (local development).
 """
+
 from __future__ import annotations
 
 import os
@@ -12,14 +12,46 @@ from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-DB_PATH = Path(os.environ.get("ALERTIQ_DB_PATH", Path(__file__).parent / "alertiq.db"))
-DATABASE_URL = f"sqlite:///{DB_PATH}"
+
+# Local SQLite database path
+DB_PATH = Path(
+    os.environ.get(
+        "ALERTIQ_DB_PATH",
+        str(Path(__file__).parent / "alertiq.db"),
+    )
+)
+
+# Prefer PostgreSQL when DATABASE_URL is configured.
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if not DATABASE_URL:
+    DATABASE_URL = f"sqlite:///{DB_PATH}"
+elif DATABASE_URL.startswith("postgres://"):
+    # Normalize older PostgreSQL URL format.
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgres://",
+        "postgresql://",
+        1,
+    )
+
+# Configure SQLAlchemy for the selected database.
+engine_options = {}
+
+if DATABASE_URL.startswith("sqlite"):
+    engine_options["connect_args"] = {
+        "check_same_thread": False
+    }
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False},  # needed for SQLite + FastAPI's threaded requests
+    **engine_options,
 )
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine,
+)
 
 
 class Base(DeclarativeBase):
@@ -27,7 +59,7 @@ class Base(DeclarativeBase):
 
 
 def get_db():
-    """FastAPI dependency: yields a DB session, always closed after the request."""
+    """Provide a database session and always close it."""
     db = SessionLocal()
     try:
         yield db
@@ -36,8 +68,7 @@ def get_db():
 
 
 def init_db() -> None:
-    """Create all tables. Safe to call repeatedly (no-op if tables exist)."""
-    # Import models so they're registered on Base.metadata before create_all.
+    """Create missing tables registered with SQLAlchemy models."""
     from database import models  # noqa: F401
 
     Base.metadata.create_all(bind=engine)

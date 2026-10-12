@@ -43,7 +43,11 @@ export function clearStoredAuth() {
   localStorage.removeItem(TOKEN_STORAGE_KEY);
 }
 
-const client: AxiosInstance = axios.create({ baseURL: "/api" });
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
+const client: AxiosInstance = axios.create({
+  baseURL: `${API_URL.replace(/\/$/, "")}/api`,
+});
 
 client.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN_STORAGE_KEY);
